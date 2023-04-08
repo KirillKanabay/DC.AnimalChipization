@@ -39,6 +39,23 @@ namespace DC.AnimalChipization.Application.Identity
             return CurrentUser;
         }
 
+        public bool HasRole(ApplicationUser user, string roleName)
+        {
+            if (user == null)
+            {
+                throw new ArgumentNullException(nameof(user));
+            }
+
+            if (string.IsNullOrEmpty(roleName))
+            {
+                throw new ArgumentNullException(nameof(roleName));
+            }
+
+            var userRole = user.Role;
+
+            return !string.IsNullOrEmpty(userRole) && userRole.Equals(roleName, StringComparison.InvariantCultureIgnoreCase);
+        }
+
         public ApplicationUser GetCurrentUser() => CurrentUser;
     }
 }

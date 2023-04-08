@@ -17,7 +17,7 @@ public static class AccountsSeeding
                 LastName = "adminLastName",
                 Email = "admin@simbirsoft.com",
                 Password = "qwerty123",
-                RoleId = Roles.AdminId
+                RoleId = RoleId.Admin
             },
             new AccountEntity
             {
@@ -26,7 +26,7 @@ public static class AccountsSeeding
                 LastName = "chipperLastName",
                 Email = "chipper@simbirsoft.com",
                 Password = "qwerty123",
-                RoleId = Roles.ChipperId
+                RoleId = RoleId.Chipper
             },
             new AccountEntity
             {
@@ -35,7 +35,7 @@ public static class AccountsSeeding
                 LastName = "userLastName",
                 Email = "user@simbirsoft.com",
                 Password = "qwerty123",
-                RoleId = Roles.UserId
+                RoleId = RoleId.User
             },
         });
     }

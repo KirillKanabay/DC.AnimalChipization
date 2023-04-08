@@ -12,12 +12,12 @@ public static class RolesSeeding
         {
             new RoleEntity
             {
-                Id = Roles.UserId,
+                Id = RoleId.User,
                 Name = "USER"
             },
             new RoleEntity
             {
-                Id = Roles.AdminId,
+                Id = RoleId.Admin,
                 Name = "ADMIN"
             },
             new RoleEntity

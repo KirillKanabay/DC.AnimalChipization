@@ -3,7 +3,7 @@ using FluentValidation.Results;
 using MediatR;
 using ValidationException = DC.AnimalChipization.Application.Common.Exceptions.ValidationException;
 
-namespace DC.AnimalChipization.Application.Behaviors
+namespace DC.AnimalChipization.Application.Common.Behaviors
 {
     public class ValidationBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
         where TRequest : IRequest<TResponse>

@@ -1,5 +1,4 @@
-﻿using DC.AnimalChipization.Application.Behaviors;
-using DC.AnimalChipization.Application.Common.Behaviors;
+﻿using DC.AnimalChipization.Application.Common.Behaviors;
 using DC.AnimalChipization.Application.Features.Accounts.Handlers.Commands;
 using DC.AnimalChipization.Application.Features.Accounts.Mappings;
 using DC.AnimalChipization.Application.Features.Accounts.Validators;
