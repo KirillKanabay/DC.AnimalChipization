@@ -1,4 +1,6 @@
-﻿using DC.AnimalChipization.Data.Common.Extensions;
+﻿using System.Linq.Expressions;
+using System.Text.RegularExpressions;
+using DC.AnimalChipization.Data.Common.Extensions;
 using DC.AnimalChipization.Data.Common.Models;
 using DC.AnimalChipization.Data.Entities;
 using DC.AnimalChipization.Data.Repositories.Contracts;
@@ -12,10 +14,15 @@ namespace DC.AnimalChipization.Data.Repositories
         public AccountRepository(ApplicationDbContext context) : base(context)
         {
         }
+        
+        private Dictionary<string, Expression<Func<AccountEntity, object>>> SortingColumns => new()
+        {
+            [nameof(AccountEntity.Id)] = x => x.Id
+        };
 
         public Task<List<AccountEntity>> ListAsync(AccountFilter filter, Paging paging)
         {
-            return GetQuery(filter).ToPagedList(paging);
+            return GetQuery(filter).ToPagedList(paging, SortingColumns);
         }
 
         public Task<AccountEntity> GetByIdAsync(int id)
@@ -44,17 +51,20 @@ namespace DC.AnimalChipization.Data.Repositories
 
             if (!string.IsNullOrWhiteSpace(filter.Email))
             {
-                query = query.Where(x => x.Email.Contains(filter.Email));
+                var pattern = Regex.Escape(filter.Email);
+                query = query.Where(x => Regex.IsMatch(x.Email, pattern, RegexOptions.IgnoreCase));
             }
 
             if (!string.IsNullOrWhiteSpace(filter.FirstName))
             {
-                query = query.Where(x => x.FirstName.Contains(filter.FirstName));
+                var pattern = Regex.Escape(filter.FirstName);
+                query = query.Where(x => Regex.IsMatch(x.FirstName, pattern, RegexOptions.IgnoreCase));
             }
 
             if (!string.IsNullOrWhiteSpace(filter.LastName))
             {
-                query = query.Where(x => x.LastName.Contains(filter.LastName));
+                var pattern = Regex.Escape(filter.LastName);
+                query = query.Where(x => Regex.IsMatch(x.LastName, pattern, RegexOptions.IgnoreCase));
             }
 
             return query;

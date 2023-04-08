@@ -4,6 +4,7 @@
     <TargetFramework>net7.0</TargetFramework>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
+	<Nullable>disable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
