@@ -37,7 +37,10 @@ namespace DC.AnimalChipization.Data.Repositories
 
         public Task<AccountEntity> Authenticate(string email, string password)
         {
-            return GetQuery().FirstOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password));
+            var filter = new AccountFilter();
+            filter.Include(x => x.Role);
+
+            return GetQuery(filter).FirstOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password));
         }
 
         private IQueryable<AccountEntity> GetQuery(AccountFilter filter)
