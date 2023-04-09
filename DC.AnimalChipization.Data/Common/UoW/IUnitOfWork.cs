@@ -9,6 +9,7 @@ namespace DC.AnimalChipization.Data.Common.UoW
         IAnimalTypeRepository AnimalTypes { get; }
         IAnimalRepository Animals { get; }
         IAnimalLocationRepository AnimalLocations { get; }
+        IRoleRepository Roles { get; }
 
         Task SaveChangesAsync();
         

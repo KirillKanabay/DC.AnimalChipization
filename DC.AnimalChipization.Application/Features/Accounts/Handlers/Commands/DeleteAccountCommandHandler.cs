@@ -1,4 +1,5 @@
 ﻿using DC.AnimalChipization.Application.Common.Exceptions;
+using DC.AnimalChipization.Application.Common.Immutable;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 using DC.AnimalChipization.Application.Identity.Contracts;
 using DC.AnimalChipization.Data.Common.UoW;
@@ -23,7 +24,7 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommandM
         var account = await _unitOfWork.Accounts.GetByIdAsync(request.AccountId);
         var currentUser = _identityManager.GetCurrentUser();
 
-        if (account == null || currentUser.Id != account.Id)
+        if (account == null || (currentUser.Id != account.Id && currentUser.Role != Roles.Admin))
         {
             throw new AccessDeniedException();
         }

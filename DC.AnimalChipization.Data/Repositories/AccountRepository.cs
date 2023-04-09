@@ -27,7 +27,7 @@ namespace DC.AnimalChipization.Data.Repositories
 
         public Task<AccountEntity> GetByIdAsync(int id)
         {
-            return GetQuery().FirstOrDefaultAsync(x => x.Id == id);
+            return GetQuery(GetDefaultAccountFilter()).FirstOrDefaultAsync(x => x.Id == id);
         }
 
         public Task<AccountEntity> GetByEmailAsync(string email)
@@ -37,10 +37,7 @@ namespace DC.AnimalChipization.Data.Repositories
 
         public Task<AccountEntity> Authenticate(string email, string password)
         {
-            var filter = new AccountFilter();
-            filter.Include(x => x.Role);
-
-            return GetQuery(filter).FirstOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password));
+            return GetQuery(GetDefaultAccountFilter()).FirstOrDefaultAsync(x => x.Email.Equals(email) && x.Password.Equals(password));
         }
 
         private IQueryable<AccountEntity> GetQuery(AccountFilter filter)
@@ -71,6 +68,14 @@ namespace DC.AnimalChipization.Data.Repositories
             }
 
             return query;
+        }
+
+        private AccountFilter GetDefaultAccountFilter()
+        {
+            var filter = new AccountFilter();
+            filter.Include(x => x.Role);
+
+            return filter;
         }
     }
 }
