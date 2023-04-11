@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DC.AnimalChipization.Application.Common.Exceptions;
+using DC.AnimalChipization.Application.Common.Helpers;
 using DC.AnimalChipization.Application.Features.AnimalLocations.DataTransfer;
 using DC.AnimalChipization.Application.Features.AnimalLocations.Messages.Commands;
 using DC.AnimalChipization.Application.Features.Animals.Enums;
@@ -46,7 +47,7 @@ public class AddAnimalLocationCommandHandler : IRequestHandler<AddAnimalLocation
         }
 
         var entity = _mapper.Map<AnimalLocationEntity>(request);
-        entity.VisitDateTime = DateTime.UtcNow;
+        entity.VisitDateTime = DateTimeHelper.GetTimeStamp();
         
         await _unitOfWork.AnimalLocations.InsertAsync(entity);
         await _unitOfWork.SaveChangesAsync();

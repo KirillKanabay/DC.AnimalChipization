@@ -23,5 +23,10 @@ namespace DC.AnimalChipization.Data
             AccountsSeeding.Seed(modelBuilder);
             RolesSeeding.Seed(modelBuilder);
         }
+
+        protected override void ConfigureConventions(ModelConfigurationBuilder configurationBuilder)
+        {
+            configurationBuilder.Properties<DateTime>().HaveColumnType("timestamp(0) with time zone");
+        }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DC.AnimalChipization.Application.Common.Exceptions;
+using DC.AnimalChipization.Application.Common.Helpers;
 using DC.AnimalChipization.Application.Features.Animals.DataTransfer;
 using DC.AnimalChipization.Application.Features.Animals.Enums;
 using DC.AnimalChipization.Application.Features.Animals.Messages.Commands;
@@ -55,7 +56,7 @@ public class UpdateAnimalCommandHandler : IRequestHandler<UpdateAnimalCommandMes
 
         if (animalDto.LifeStatus is LifeStatus.Dead)
         {
-            animalDto.DeathDateTime = DateTime.UtcNow;
+            animalDto.DeathDateTime = DateTimeHelper.GetTimeStamp();
         }
 
         var updatedEntity = _mapper.Map<AnimalEntity>(animalDto);

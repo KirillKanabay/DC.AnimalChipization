@@ -15,7 +15,8 @@ namespace DC.AnimalChipization.Application.Features.Accounts.Mappings
             CreateMap<AddAccountCommandMessage, AccountEntity>()
                 .ForMember(x => x.Role, opt => opt.Ignore());
 
-            CreateMap<UpdateAccountCommandMessage, AccountEntity>();
+            CreateMap<UpdateAccountCommandMessage, AccountEntity>()
+                .ForMember(x => x.Role, opt => opt.Ignore());
 
             CreateMap<AccountSearchQueryMessage, AccountFilter>();
 

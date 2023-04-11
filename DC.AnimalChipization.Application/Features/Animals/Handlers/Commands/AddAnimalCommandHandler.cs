@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DC.AnimalChipization.Application.Common.Exceptions;
+using DC.AnimalChipization.Application.Common.Helpers;
 using DC.AnimalChipization.Application.Features.Animals.DataTransfer;
 using DC.AnimalChipization.Application.Features.Animals.Enums;
 using DC.AnimalChipization.Application.Features.Animals.Messages.Commands;
@@ -77,7 +78,7 @@ namespace DC.AnimalChipization.Application.Features.Animals.Handlers.Commands
             var animalEntity = _mapper.Map<AnimalEntity>(request);
 
             animalEntity.LifeStatus = (int)LifeStatus.Alive;
-            animalEntity.ChippingDateTime = DateTime.UtcNow;
+            animalEntity.ChippingDateTime = DateTimeHelper.GetTimeStamp();
 
             animalEntity.AnimalTypes = relatedData.Types;
             animalEntity.Chipper = relatedData.Chipper;
