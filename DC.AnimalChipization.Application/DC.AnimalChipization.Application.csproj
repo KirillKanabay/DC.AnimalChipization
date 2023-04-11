@@ -22,6 +22,10 @@
 	
   <ItemGroup>
     <Folder Include="Common\Immutable\" />
+    <Folder Include="Features\Areas\Handlers\Commands\" />
+    <Folder Include="Features\Areas\Handlers\Queries\" />
+    <Folder Include="Features\Areas\Messages\Commands\" />
+    <Folder Include="Features\Areas\Validators\" />
   </ItemGroup>
 
 </Project>

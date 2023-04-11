@@ -29,4 +29,8 @@
     <ProjectReference Include="..\DC.AnimalChipization.Data\DC.AnimalChipization.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="ViewModels\Areas\" />
+  </ItemGroup>
+
 </Project>
