@@ -13,6 +13,7 @@ namespace DC.AnimalChipization.WebApi.Mappings
         {
             CreateMap<RegisterAccountRequest, RegisterAccountCommandMessage>();
             CreateMap<UpdateAccountRequest, UpdateAccountCommandMessage>();
+            CreateMap<CreateAccountRequest, AddAccountCommandMessage>();
             CreateMap<AccountSearchRequest, AccountSearchQueryMessage>();
             CreateMap<AccountViewModel, AccountDto>().ReverseMap();
         }

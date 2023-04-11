@@ -3,24 +3,14 @@ using FluentValidation;
 
 namespace DC.AnimalChipization.Application.Features.Accounts.Validators;
 
-public class UpdateAccountCommandMessageValidator : AbstractValidator<UpdateAccountCommandMessage>
+public class UpdateAccountCommandMessageValidator : ImportAccountCommandMessageValidatorBase<UpdateAccountCommandMessage>
 {
     public UpdateAccountCommandMessageValidator()
     {
         RuleFor(x => x.AccountId)
             .Must(x => x > 0);
 
-        RuleFor(x => x.FirstName)
-            .NotEmpty();
-
-        RuleFor(x => x.LastName)
-            .NotEmpty();
-
-        RuleFor(x => x.Email)
-            .NotEmpty()
-            .EmailAddress();
-
-        RuleFor(x => x.Password)
+        RuleFor(x => x.Role)
             .NotEmpty();
     }
 }

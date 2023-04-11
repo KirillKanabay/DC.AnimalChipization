@@ -12,12 +12,17 @@ namespace DC.AnimalChipization.Application.Features.Accounts.Mappings
         public AccountProfile()
         {
             CreateMap<RegisterAccountCommandMessage, AccountEntity>();
-            CreateMap<UpdateAccountCommandMessage, AccountEntity>();
+            CreateMap<AddAccountCommandMessage, AccountEntity>()
+                .ForMember(x => x.Role, opt => opt.Ignore());
+
+            CreateMap<UpdateAccountCommandMessage, AccountEntity>()
+                .ForMember(x => x.Role, opt => opt.Ignore());
 
             CreateMap<AccountSearchQueryMessage, AccountFilter>();
 
             CreateMap<AccountDto, AccountEntity>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(x => x.Role, opt => opt.MapFrom((x, _) => x.Role?.Name));
         }
     }
 }

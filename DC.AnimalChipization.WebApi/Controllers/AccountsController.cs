@@ -4,8 +4,11 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Queries;
+using DC.AnimalChipization.Application.Features.Animals.Messages.Commands;
 using DC.AnimalChipization.WebApi.ViewModels.Accounts;
 using DC.AnimalChipization.WebApi.ViewModels.Accounts.Requests;
+using DC.AnimalChipization.WebApi.ViewModels.Animals.Requests;
+using DC.AnimalChipization.WebApi.ViewModels.Animals;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,6 +24,7 @@ public class AccountsController : ControllerBase
    
     public const string ActionGetByIdName = "GetById";
     public const string ActionSearchName = "Search";
+    public const string ActionCreateName = "Create";
     public const string ActionUpdateName = "Update";
     public const string ActionDeleteName = "Delete";
     #endregion
@@ -54,6 +58,23 @@ public class AccountsController : ControllerBase
         var viewModels = _mapper.Map<List<AccountViewModel>>(accountDtos);
 
         return Ok(viewModels);
+    }
+
+    [HttpPost]
+    [ActionName(ActionCreateName)]
+    public async Task<ActionResult<AccountViewModel>> CreateAsync([FromBody] CreateAccountRequest request)
+    {
+        var message = _mapper.Map<AddAccountCommandMessage>(request);
+        var response = await _mediator.Send(message);
+        var viewModel = _mapper.Map<AccountViewModel>(response);
+
+        return CreatedAtAction
+        (
+            actionName: ActionGetByIdName,
+            controllerName: ControllerName,
+            routeValues: new { accountId = viewModel.Id },
+            viewModel
+        );
     }
 
     [HttpPut("{accountId:int}")]

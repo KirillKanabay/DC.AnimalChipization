@@ -1,37 +1,27 @@
 ﻿using AutoMapper;
 using DC.AnimalChipization.Application.Common.Exceptions;
-using DC.AnimalChipization.Application.Features.Accounts.DataTransfer;
-using DC.AnimalChipization.Application.Features.Accounts.Exceptions;
+using DC.AnimalChipization.Application.Common.Immutable;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 using DC.AnimalChipization.Application.Identity.Contracts;
+using DC.AnimalChipization.Data.Common.Immutable;
 using DC.AnimalChipization.Data.Common.UoW;
 using DC.AnimalChipization.Data.Entities;
-using MediatR;
 
 namespace DC.AnimalChipization.Application.Features.Accounts.Handlers.Commands
 {
-    public class RegisterAccountCommandHandler : IRequestHandler<RegisterAccountCommandMessage, AccountDto>
+    public class RegisterAccountCommandHandler : ImportAccountCommandHandlerBase<RegisterAccountCommandMessage>
     {
-        private readonly IUnitOfWork _unitOfWork;
-        private readonly IMapper _mapper;
         private readonly IIdentityManager _identityManager;
 
-        public RegisterAccountCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IIdentityManager identityManager)
+        private (int Id, string Name) DefaultRole => (RoleId.User, Roles.User);
+
+        public RegisterAccountCommandHandler(IUnitOfWork unitOfWork, IMapper mapper, IIdentityManager identityManager) : base(unitOfWork, mapper)
         {
-            _unitOfWork = unitOfWork ?? throw new ArgumentNullException(nameof(unitOfWork));
-            _mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             _identityManager = identityManager ?? throw new ArgumentNullException(nameof(identityManager));
         }
 
-        public async Task<AccountDto> Handle(RegisterAccountCommandMessage request, CancellationToken cancellationToken)
+        protected override Task PreExecuteAsync(RegisterAccountCommandMessage request)
         {
-            var accountWithSameEmail = await _unitOfWork.Accounts.GetByEmailAsync(request.Email);
-
-            if (accountWithSameEmail != null)
-            {
-                throw new AccountDuplicateEmailException();
-            }
-
             var currentUser = _identityManager.GetCurrentUser();
 
             if (currentUser != null)
@@ -39,13 +29,16 @@ namespace DC.AnimalChipization.Application.Features.Accounts.Handlers.Commands
                 throw new AccessDeniedException();
             }
 
-            var accountEntity = _mapper.Map<AccountEntity>(request);
-            accountEntity = await _unitOfWork.Accounts.InsertAsync(accountEntity);
-            await _unitOfWork.SaveChangesAsync();
+            return Task.CompletedTask;
+        }
 
-            var accountDto = _mapper.Map<AccountEntity, AccountDto>(accountEntity);
-
-            return accountDto;
+        protected override Task<RoleEntity> GetRole(RegisterAccountCommandMessage request)
+        {
+            return Task.FromResult(new RoleEntity
+            {
+                Id = DefaultRole.Id,
+                Name = DefaultRole.Name
+            });
         }
     }
 }

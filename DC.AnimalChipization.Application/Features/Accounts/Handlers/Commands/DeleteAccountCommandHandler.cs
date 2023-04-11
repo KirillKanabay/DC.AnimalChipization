@@ -1,7 +1,9 @@
 ﻿using DC.AnimalChipization.Application.Common.Exceptions;
+using DC.AnimalChipization.Application.Common.Immutable;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 using DC.AnimalChipization.Application.Identity.Contracts;
 using DC.AnimalChipization.Data.Common.UoW;
+using DC.AnimalChipization.Data.Entities;
 using DC.AnimalChipization.Data.Repositories.Filters;
 using MediatR;
 
@@ -20,17 +22,27 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommandM
 
     public async Task<Unit> Handle(DeleteAccountCommandMessage request, CancellationToken cancellationToken)
     {
-        var account = await _unitOfWork.Accounts.GetByIdAsync(request.AccountId);
+        var accountEntity = await _unitOfWork.Accounts.GetByIdAsync(request.AccountId);
         var currentUser = _identityManager.GetCurrentUser();
 
-        if (account == null || currentUser.Id != account.Id)
+        if (currentUser.Role.Equals(Roles.Admin))
         {
-            throw new AccessDeniedException();
+            if (accountEntity is null)
+            {
+                throw new NotFoundException();
+            }
+        }
+        else
+        {
+            if (accountEntity is null || currentUser.Id != accountEntity.Id)
+            {
+                throw new AccessDeniedException();
+            }
         }
 
         var animalExists = await _unitOfWork.Animals.ExistsAsync(new AnimalFilter
         {
-            ChipperId = account.Id
+            ChipperId = accountEntity.Id
         });
 
         if (animalExists)
@@ -38,7 +50,7 @@ public class DeleteAccountCommandHandler : IRequestHandler<DeleteAccountCommandM
             throw new ValidationException();
         }
 
-        await _unitOfWork.Accounts.DeleteAsync(account);
+        await _unitOfWork.Accounts.DeleteAsync(accountEntity);
         await _unitOfWork.SaveChangesAsync();
 
         return Unit.Value;
