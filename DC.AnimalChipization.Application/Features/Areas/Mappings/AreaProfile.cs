@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using DC.AnimalChipization.Application.Features.Areas.DataTransfer;
+using DC.AnimalChipization.Application.Features.Areas.Messages.Commands;
 using DC.AnimalChipization.Data.Entities;
 
 namespace DC.AnimalChipization.Application.Features.Areas.Mappings
@@ -13,6 +14,8 @@ namespace DC.AnimalChipization.Application.Features.Areas.Mappings
             
             CreateMap<AreaPointEntity, AreaPointDto>()
                 .ReverseMap();
+
+            CreateMap<AddAreaCommandMessage, AreaDto>();
         }
     }
 }

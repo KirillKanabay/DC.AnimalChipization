@@ -11,6 +11,11 @@ public class AreaRepository : RepositoryBase<AreaEntity>, IAreaRepository
     {
     }
 
+    public Task<List<AreaEntity>> ListAsync(AreaFilter filter)
+    {
+        return GetQuery(filter).ToListAsync();
+    }
+
     public Task<AreaEntity> FirstOrDefaultAsync(AreaFilter filter)
     {
         return GetQuery(filter).FirstOrDefaultAsync();

@@ -9,6 +9,6 @@ public class AreaProfile : Profile
     public AreaProfile()
     {
         CreateMap<AreaDto, AreaViewModel>();
-        CreateMap<AreaPointDto, AreaPointViewModel>();
+        CreateMap<AreaPointDto, AreaPointViewModel>().ReverseMap();
     }
 }
