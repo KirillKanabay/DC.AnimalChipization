@@ -4,6 +4,7 @@ using DC.AnimalChipization.Application.Identity.Attributes;
 namespace DC.AnimalChipization.Application.Features.Areas.Messages.Commands;
 
 [Authorize(Roles = new[] { Roles.Admin })]
-public class AddAreaCommandMessage : ImportAreaCommandMessageBase
+public class UpdateAreaCommandMessage : ImportAreaCommandMessageBase
 {
+    public long AreaId { get; set; }
 }

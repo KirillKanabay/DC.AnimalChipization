@@ -5,5 +5,5 @@ namespace DC.AnimalChipization.Data.Repositories.Filters;
 
 public class AreaFilter : FilterBase<AreaEntity>
 {
-    public long Id { get; set; }
+    public long? Id { get; set; }
 }

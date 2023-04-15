@@ -1,12 +1,12 @@
 ﻿using AutoMapper;
-using DC.AnimalChipization.Application.Features.Accounts.Messages.Queries;
-using DC.AnimalChipization.WebApi.ViewModels.Accounts;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Threading.Tasks;
 using DC.AnimalChipization.Application.Features.Areas.Messages.Queries;
 using DC.AnimalChipization.WebApi.ViewModels.Areas;
+using DC.AnimalChipization.Application.Features.Areas.Messages.Commands;
+using DC.AnimalChipization.WebApi.ViewModels.Areas.Requests;
 
 namespace DC.AnimalChipization.WebApi.Controllers
 {
@@ -35,13 +35,52 @@ namespace DC.AnimalChipization.WebApi.Controllers
 
         [HttpGet("{areaId:int}")]
         [ActionName(ActionGetByIdName)]
-        public async Task<ActionResult<AccountViewModel>> GetByIdAsync(int areaId)
+        public async Task<ActionResult<AreaViewModel>> GetByIdAsync(int areaId)
         {
             var message = new GetAreaByIdQueryMessage { Id = areaId };
             var areaDto = await _mediator.Send(message);
             var viewModel = _mapper.Map<AreaViewModel>(areaDto);
 
             return Ok(viewModel);
+        }
+
+        [HttpPost]
+        [ActionName(ActionCreateName)]
+        public async Task<ActionResult<AreaViewModel>> CreateAsync([FromBody] CreateAreaRequest request)
+        {
+            var message = _mapper.Map<AddAreaCommandMessage>(request);
+            var response = await _mediator.Send(message);
+            var viewModel = _mapper.Map<AreaViewModel>(response);
+
+            return CreatedAtAction
+            (
+                actionName: ActionGetByIdName,
+                controllerName: ControllerName,
+                routeValues: new { areaId = viewModel.Id },
+                viewModel
+            );
+        }
+
+        [HttpPut("{areaId:long}")]
+        [ActionName(ActionUpdateName)]
+        public async Task<ActionResult<AreaViewModel>> UpdateAsync(long areaId, [FromBody] UpdateAreaRequest request)
+        {
+            var message = _mapper.Map<UpdateAreaCommandMessage>(request);
+            message.AreaId = areaId;
+            var response = await _mediator.Send(message);
+            var viewModel = _mapper.Map<AreaViewModel>(response);
+
+            return Ok(viewModel);
+        }
+
+        [HttpDelete("{areaId:long}")]
+        [ActionName(ActionDeleteName)]
+        public async Task<ActionResult> DeleteAsync(long areaId)
+        {
+            var message = new DeleteAreaCommandMessage { AreaId = areaId };
+            await _mediator.Send(message);
+
+            return Ok();
         }
     }
 }

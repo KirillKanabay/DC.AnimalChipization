@@ -16,6 +16,7 @@ public static class ConfigureServices
         services.AddScoped<IAnimalRepository, AnimalRepository>();
         services.AddScoped<IRoleRepository, RoleRepository>();
         services.AddScoped<IAreaRepository, AreaRepository>();
+        services.AddScoped<IAreaPointRepository, AreaPointRepository>();
 
         services.AddScoped<IUnitOfWork, UnitOfWork>();
     }

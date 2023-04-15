@@ -8,6 +8,9 @@ public class AreaConfiguration : IEntityTypeConfiguration<AreaEntity>
 {
     public void Configure(EntityTypeBuilder<AreaEntity> builder)
     {
-        builder.HasMany(x => x.AreaPoints).WithOne(x => x.Area).HasForeignKey(x => x.Area);
+        builder.HasMany(x => x.AreaPoints)
+            .WithOne(x => x.Area)
+            .HasForeignKey(x => x.Area)
+            .OnDelete(DeleteBehavior.Cascade);
     }
 }

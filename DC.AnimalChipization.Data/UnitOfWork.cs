@@ -14,6 +14,7 @@ namespace DC.AnimalChipization.Data
         public IAnimalLocationRepository AnimalLocations { get; }
         public IRoleRepository Roles { get; }
         public IAreaRepository Areas { get; }
+        public IAreaPointRepository AreaPoints { get; }
 
         public UnitOfWork(ApplicationDbContext context, 
             IAccountRepository accountRepository, 
@@ -22,7 +23,8 @@ namespace DC.AnimalChipization.Data
             IAnimalRepository animalRepository,
             IAnimalLocationRepository animalLocationRepository, 
             IRoleRepository roleRepository, 
-            IAreaRepository areaRepository)
+            IAreaRepository areaRepository, 
+            IAreaPointRepository areaPointRepository)
         {
             _context = context ?? throw new ArgumentNullException(nameof(context));
 
@@ -33,6 +35,7 @@ namespace DC.AnimalChipization.Data
             AnimalLocations = animalLocationRepository ?? throw new ArgumentNullException(nameof(animalLocationRepository));
             Roles = roleRepository ?? throw new ArgumentNullException(nameof(roleRepository));
             Areas = areaRepository ?? throw new ArgumentNullException(nameof(areaRepository));
+            AreaPoints = areaPointRepository ?? throw new ArgumentNullException(nameof(areaPointRepository));
         }
 
         public Task SaveChangesAsync()

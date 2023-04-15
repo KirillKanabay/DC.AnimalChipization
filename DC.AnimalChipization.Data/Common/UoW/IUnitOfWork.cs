@@ -11,7 +11,8 @@ namespace DC.AnimalChipization.Data.Common.UoW
         IAnimalLocationRepository AnimalLocations { get; }
         IRoleRepository Roles { get; }
         IAreaRepository Areas { get; }
-
+        IAreaPointRepository AreaPoints { get; }
+        
         Task SaveChangesAsync();
     }
 }

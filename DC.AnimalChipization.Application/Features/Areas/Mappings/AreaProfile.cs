@@ -16,6 +16,7 @@ namespace DC.AnimalChipization.Application.Features.Areas.Mappings
                 .ReverseMap();
 
             CreateMap<AddAreaCommandMessage, AreaDto>();
+            CreateMap<UpdateAreaCommandMessage, AreaDto>();
         }
     }
 }
