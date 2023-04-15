@@ -16,7 +16,8 @@ namespace DC.AnimalChipization.Application.Tests
 
         [TestCase(ValidPolygonIndex, false)]
         [TestCase(PolygonWithIntersectedEdges1Index, true)]
-        [TestCase(PolygonWithIntersectedEdges1Index, true)]
+        [TestCase(PolygonWithIntersectedEdges2Index, true)]
+        [TestCase(PolygonWithIntersectedEdges3Index, true)]
         public void PolygonHasIntersectedEdgesTests(int polygonIndex, bool result)
         {
             var polygon = Polygons[polygonIndex];

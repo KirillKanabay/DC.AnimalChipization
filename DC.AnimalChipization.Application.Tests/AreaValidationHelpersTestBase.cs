@@ -18,6 +18,7 @@ public class AreaValidationHelpersTestBase
     protected const int OuterPolygonIndex = 11;
     protected const int InnerPolygon1Index = 12;
     protected const int InnerPolygon2Index = 13;
+    protected const int PolygonWithIntersectedEdges3Index = 14;
 
     protected Dictionary<int, List<AreaPointDto>> Polygons => new()
     {
@@ -68,6 +69,13 @@ public class AreaValidationHelpersTestBase
             new (){Longitude = 3, Latitude = 3},
             new (){Longitude = 5, Latitude = 1},
             new (){Longitude = 1, Latitude = 3},
+        },
+        [PolygonWithIntersectedEdges3Index] = new List<AreaPointDto>
+        {
+            new (){Longitude = -29, Latitude = -179},
+            new (){Longitude = -29, Latitude = -166},
+            new (){Longitude = -16, Latitude = -180},
+            new (){Longitude = -16, Latitude = -166},
         },
 
         #endregion

@@ -17,6 +17,9 @@ namespace DC.AnimalChipization.Application.Features.Areas.Mappings
 
             CreateMap<AddAreaCommandMessage, AreaDto>();
             CreateMap<UpdateAreaCommandMessage, AreaDto>();
+
+            CreateMap<AddAreaCommandMessage, AreaEntity>();
+            CreateMap<UpdateAreaCommandMessage, AreaEntity>();
         }
     }
 }

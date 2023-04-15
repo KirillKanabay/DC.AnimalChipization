@@ -10,7 +10,7 @@ public class AreaConfiguration : IEntityTypeConfiguration<AreaEntity>
     {
         builder.HasMany(x => x.AreaPoints)
             .WithOne(x => x.Area)
-            .HasForeignKey(x => x.Area)
+            .HasForeignKey(x => x.AreaId)
             .OnDelete(DeleteBehavior.Cascade);
     }
 }

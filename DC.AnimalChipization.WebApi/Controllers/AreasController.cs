@@ -16,7 +16,7 @@ namespace DC.AnimalChipization.WebApi.Controllers
     {
         #region [ControllerConstants]
 
-        public const string ControllerName = "Accounts";
+        public const string ControllerName = "Areas";
 
         public const string ActionGetByIdName = "GetById";
         public const string ActionCreateName = "Create";

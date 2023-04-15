@@ -15,6 +15,8 @@ namespace DC.AnimalChipization.Data
         public DbSet<AnimalEntity> Animals { get; set; }
         public DbSet<AnimalLocationEntity> AnimalLocations { get; set; }
         public DbSet<AnimalTypeEntity> AnimalTypes { get; set; }
+        public DbSet<AreaEntity> Areas { get; set; }
+        public DbSet<AreaPointEntity> AreaPoints { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

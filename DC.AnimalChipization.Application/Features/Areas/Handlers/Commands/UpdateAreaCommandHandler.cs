@@ -37,4 +37,11 @@ public class UpdateAreaCommandHandler : ImportAreaCommandHandlerBase<UpdateAreaC
 
         return Mapper.Map<AreaDto>(area);
     }
+
+    protected override async Task<List<AreaDto>> GetExistedAreasForValidateAsync(UpdateAreaCommandMessage request)
+    {
+        var areas = await base.GetExistedAreasForValidateAsync(request);
+
+        return areas.Where(x => x.Id != request.AreaId).ToList();
+    }
 }

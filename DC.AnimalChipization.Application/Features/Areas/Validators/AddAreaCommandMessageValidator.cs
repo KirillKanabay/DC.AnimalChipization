@@ -6,6 +6,6 @@ using FluentValidation;
 
 namespace DC.AnimalChipization.Application.Features.Areas.Validators;
 
-public class AddAreaCommandMessageValidator : AbstractValidator<AddAreaCommandMessage>
+public class AddAreaCommandMessageValidator : ImportAreaMessageValidatorBase<AddAreaCommandMessage>
 {
 }

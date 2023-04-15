@@ -23,7 +23,7 @@ public abstract class ImportAreaCommandHandlerBase<TCommand> : IRequestHandler<T
     
     public abstract Task<AreaDto> Handle(TCommand request, CancellationToken cancellationToken);
 
-    protected virtual async Task ValidateRequestAsync(TCommand request)
+    protected virtual async Task<List<AreaDto>> GetExistedAreasForValidateAsync(TCommand request)
     {
         var filter = new AreaFilter();
         filter.Include(x => x.AreaPoints);
@@ -31,6 +31,13 @@ public abstract class ImportAreaCommandHandlerBase<TCommand> : IRequestHandler<T
         var areasEntities = await UnitOfWork.Areas.ListAsync(filter);
 
         var areas = Mapper.Map<List<AreaDto>>(areasEntities);
+
+        return areas;
+    }
+
+    protected virtual async Task ValidateRequestAsync(TCommand request)
+    {
+        var areas = await GetExistedAreasForValidateAsync(request);
 
         if (areas.Any(area => area.Name.Equals(request.Name, StringComparison.InvariantCultureIgnoreCase) ||
                               AreaValidationHelper.IsPolygonsDuplicate(area.AreaPoints, request.AreaPoints)))
