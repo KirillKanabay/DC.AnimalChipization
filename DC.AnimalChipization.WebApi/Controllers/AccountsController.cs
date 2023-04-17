@@ -4,11 +4,8 @@ using System.Threading.Tasks;
 using AutoMapper;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 using DC.AnimalChipization.Application.Features.Accounts.Messages.Queries;
-using DC.AnimalChipization.Application.Features.Animals.Messages.Commands;
 using DC.AnimalChipization.WebApi.ViewModels.Accounts;
 using DC.AnimalChipization.WebApi.ViewModels.Accounts.Requests;
-using DC.AnimalChipization.WebApi.ViewModels.Animals.Requests;
-using DC.AnimalChipization.WebApi.ViewModels.Animals;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
