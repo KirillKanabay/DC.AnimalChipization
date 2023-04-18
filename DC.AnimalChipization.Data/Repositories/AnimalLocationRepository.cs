@@ -34,6 +34,20 @@ public class AnimalLocationRepository : RepositoryBase<AnimalLocationEntity>, IA
         return GetQuery(filter).ToPagedList(paging, SortingColumns);
     }
 
+    public Task<List<AnimalLocationEntity>> GetAllLocationsAsync(DateTime startDate, DateTime endDate)
+    {
+        var query = GetQuery();
+        
+        query = query
+            .Include(x => x.Animal)
+                .ThenInclude(x => x.AnimalTypes)
+            .Include(x => x.Animal)
+                .ThenInclude(x => x.VisitedLocations)
+            .Include(x => x.Location);
+
+        return query.ToListAsync();
+    }
+
     public override async Task DeleteAsync(AnimalLocationEntity entity)
     {
         var entityForDelete = await GetByIdAsync(entity.Id);

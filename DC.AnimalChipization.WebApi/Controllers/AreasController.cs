@@ -19,6 +19,7 @@ namespace DC.AnimalChipization.WebApi.Controllers
         public const string ControllerName = "Areas";
 
         public const string ActionGetByIdName = "GetById";
+        public const string ActionAnalyticsName = "Analytics";
         public const string ActionCreateName = "Create";
         public const string ActionUpdateName = "Update";
         public const string ActionDeleteName = "Delete";
@@ -33,13 +34,25 @@ namespace DC.AnimalChipization.WebApi.Controllers
             _mediator = mediator ?? throw new ArgumentNullException(nameof(mediator));
         }
 
-        [HttpGet("{areaId:int}")]
+        [HttpGet("{areaId:long}")]
         [ActionName(ActionGetByIdName)]
         public async Task<ActionResult<AreaViewModel>> GetByIdAsync(int areaId)
         {
             var message = new GetAreaByIdQueryMessage { Id = areaId };
             var areaDto = await _mediator.Send(message);
             var viewModel = _mapper.Map<AreaViewModel>(areaDto);
+
+            return Ok(viewModel);
+        }
+
+        [HttpGet("{areaId:long}/analytics")]
+        [ActionName(ActionAnalyticsName)]
+        public async Task<ActionResult<AreaAnalyticResultViewModel>> GetAnalyticsAsync(long areaId, [FromQuery] AreaAnalyticRequest request)
+        {
+            var message = _mapper.Map<GetAreaAnalyticsQueryMessage>(request);
+            message.AreaId = areaId;
+            var response = await _mediator.Send(message);
+            var viewModel = _mapper.Map<AreaAnalyticResultViewModel>(response);
 
             return Ok(viewModel);
         }

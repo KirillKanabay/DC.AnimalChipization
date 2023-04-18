@@ -25,7 +25,7 @@ public static partial class AreaValidationHelper
         return true;
     }
 
-    private static bool IsPointInsidePolygon(AreaPointDto point, List<AreaPointDto> polygon)
+    public static bool IsPointInsidePolygon(AreaPointDto point, List<AreaPointDto> polygon)
     {
         var polygonPointsCount = polygon.Count;
         var isInside = false;

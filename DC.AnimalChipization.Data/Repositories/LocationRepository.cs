@@ -33,7 +33,7 @@ public class LocationRepository : RepositoryBase<LocationEntity>, ILocationRepos
     {
         return GetQuery(filter).ToPagedList(paging, SortingColumns);
     }
-
+    
     public Task<LocationEntity> GetByIdAsync(long id)
     {
         return GetQuery().FirstOrDefaultAsync(x => x.Id == id);
