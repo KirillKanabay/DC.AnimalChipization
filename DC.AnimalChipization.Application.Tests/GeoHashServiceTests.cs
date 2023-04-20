@@ -22,7 +22,7 @@ public class GeoHashServiceTests
 
         Assert.That(result, Is.EqualTo(expectedResult));
     }
-
+    
     private IGeoHashService GetGeoHashService()
     {
         return new GeoHashService();

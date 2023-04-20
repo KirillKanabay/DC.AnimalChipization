@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
 using DC.AnimalChipization.Application.Features.Locations.Enums;
@@ -90,7 +91,7 @@ public class LocationsController : ControllerBase
 
         return Ok(result);
     }
-
+    
     [HttpPost]
     [ActionName(ActionCreateName)]
     public async Task<ActionResult<LocationViewModel>> CreateAsync([FromBody] CreateLocationRequest request)
