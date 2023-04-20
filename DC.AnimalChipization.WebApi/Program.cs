@@ -15,7 +15,6 @@ namespace DC.AnimalChipization.WebApi
             using var scope = host.Services.CreateScope();
 
             var applicationDbContext = scope.ServiceProvider.GetService<ApplicationDbContext>();
-            await applicationDbContext?.Database?.EnsureDeletedAsync();
             await applicationDbContext?.Database?.EnsureCreatedAsync();
                 
             await host.RunAsync();

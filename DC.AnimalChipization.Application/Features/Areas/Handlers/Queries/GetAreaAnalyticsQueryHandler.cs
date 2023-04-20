@@ -40,12 +40,12 @@ public class GetAreaAnalyticsQueryHandler : IRequestHandler<GetAreaAnalyticsQuer
         }
 
         var areaDto = _mapper.Map<AreaDto>(area);
-        var animals = await _unitOfWork.Animals.GetAnimalsByVisitDatePeriodAsync(request.StartDate, request.EndDate);
+        var animals = await _unitOfWork.Animals.ListAllAsync();
 
-        return GetAnalytic(animals, areaDto);
+        return GetAnalytic(animals, areaDto, request.StartDate, request.EndDate);
     }
 
-    private AreaAnalyticResultDto GetAnalytic(List<AnimalEntity> animals, AreaDto area)
+    private AreaAnalyticResultDto GetAnalytic(List<AnimalEntity> animals, AreaDto area, DateTime startDate, DateTime endDate)
     {
         var analyticResult = new AreaAnalyticResultDto();
         var animalAnalyticsByType = new Dictionary<long, AreaAnalyticItemDto>();
@@ -54,9 +54,23 @@ public class GetAreaAnalyticsQueryHandler : IRequestHandler<GetAreaAnalyticsQuer
         {
             var isArrived = false;
             var isGone = false;
-            var animalInArea = IsLocationInArea(area, animal.ChippingLocation);
+            var animalInArea = false;
 
-            foreach (var visitedLocation in animal.VisitedLocations)
+            var lastVisitedLocationBeforePeriod = animal.VisitedLocations
+                .LastOrDefault(x => x.VisitDateTime < startDate)?.Location;
+
+            if (lastVisitedLocationBeforePeriod == null && animal.ChippingDateTime <= endDate)
+            {
+                lastVisitedLocationBeforePeriod = animal.ChippingLocation;
+            }
+
+            if (lastVisitedLocationBeforePeriod != null)
+            {
+                animalInArea = IsLocationInArea(area, lastVisitedLocationBeforePeriod);
+            }
+
+            foreach (var visitedLocation in animal.VisitedLocations
+                         .Where(vl => vl.VisitDateTime >= startDate && vl.VisitDateTime <= endDate))
             {
                 var isLocationInArea = IsLocationInArea(area, visitedLocation.Location);
 

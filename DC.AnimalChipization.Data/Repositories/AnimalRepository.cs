@@ -19,15 +19,10 @@ public class AnimalRepository : RepositoryBase<AnimalEntity>, IAnimalRepository
         [nameof(AnimalEntity.Id)] = x => x.Id
     };
 
-    public Task<List<AnimalEntity>> GetAnimalsByVisitDatePeriodAsync(DateTime startDate, DateTime endDate)
+    public override Task<List<AnimalEntity>> ListAllAsync()
     {
-        var preparedStartDate = DateTime.SpecifyKind(startDate, DateTimeKind.Utc);
-        var preparedEndDate = DateTime.SpecifyKind(endDate, DateTimeKind.Utc);
-
         return GetQuery()
-            .Include(x => x.VisitedLocations
-                .Where(vl => vl.VisitDateTime >= preparedStartDate && vl.VisitDateTime <= preparedEndDate)
-                .OrderBy(vl => vl.VisitDateTime))
+            .Include(x => x.VisitedLocations.OrderBy(vl => vl.VisitDateTime))
             .ThenInclude(x => x.Location)
             .Include(x => x.AnimalTypes)
             .Include(x => x.ChippingLocation).ToListAsync();
