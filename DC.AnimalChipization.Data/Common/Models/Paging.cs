@@ -4,5 +4,6 @@
     {
         public int From { get; set; }
         public int Size { get; set; }
+        public string OrderBy { get; set; }
     }
 }

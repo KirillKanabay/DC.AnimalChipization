@@ -1,8 +1,4 @@
 ﻿using AutoMapper;
-using DC.AnimalChipization.Application.Features.Locations.Messages.Commands;
-using DC.AnimalChipization.Application.Features.Locations.Messages.Queries;
-using DC.AnimalChipization.WebApi.ViewModels.Locations.Requests;
-using DC.AnimalChipization.WebApi.ViewModels.Locations;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;

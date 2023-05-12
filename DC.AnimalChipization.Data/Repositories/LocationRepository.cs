@@ -4,6 +4,7 @@ using DC.AnimalChipization.Data.Entities;
 using DC.AnimalChipization.Data.Repositories.Contracts;
 using DC.AnimalChipization.Data.Repositories.Filters;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DC.AnimalChipization.Data.Repositories;
 
@@ -12,6 +13,11 @@ public class LocationRepository : RepositoryBase<LocationEntity>, ILocationRepos
     public LocationRepository(ApplicationDbContext context) : base(context)
     {
     }
+
+    private Dictionary<string, Expression<Func<LocationEntity, object>>> SortingColumns => new()
+    {
+        [nameof(LocationEntity.Id)] = x => x.Id
+    };
 
     public Task<bool> ExistsAsync(LocationFilter filter)
     {
@@ -25,9 +31,9 @@ public class LocationRepository : RepositoryBase<LocationEntity>, ILocationRepos
 
     public Task<List<LocationEntity>> ListAsync(LocationFilter filter, Paging paging)
     {
-        return GetQuery(filter).ToPagedList(paging);
+        return GetQuery(filter).ToPagedList(paging, SortingColumns);
     }
-
+    
     public Task<LocationEntity> GetByIdAsync(long id)
     {
         return GetQuery().FirstOrDefaultAsync(x => x.Id == id);

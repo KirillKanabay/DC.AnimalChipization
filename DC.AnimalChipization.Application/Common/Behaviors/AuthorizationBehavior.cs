@@ -18,7 +18,7 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
 
     public Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>();
+        var authorizeAttributes = request.GetType().GetCustomAttributes<AuthorizeAttribute>().ToList();
 
         if (authorizeAttributes.Any())
         {
@@ -27,6 +27,13 @@ public class AuthorizationBehavior<TRequest, TResponse> : IPipelineBehavior<TReq
             if (currentUser == null)
             {
                 throw new UnauthorizedException();
+            }
+
+            var authorizeAttributesRoles = authorizeAttributes.Where(x => x.Roles != null).SelectMany(x => x.Roles).ToList();
+
+            if (authorizeAttributesRoles.Any() && !authorizeAttributesRoles.All(role => _identityManager.HasRole(currentUser, role)))
+            {
+                throw new AccessDeniedException();
             }
         }
 

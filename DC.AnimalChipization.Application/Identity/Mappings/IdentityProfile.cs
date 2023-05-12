@@ -8,7 +8,8 @@ namespace DC.AnimalChipization.Application.Identity.Mappings
     {
         public IdentityProfile()
         {
-            CreateMap<AccountEntity, ApplicationUser>();
+            CreateMap<AccountEntity, ApplicationUser>()
+                .ForMember(x => x.Role, opt => opt.MapFrom((x, _)=> x.Role?.Name));
         }
     }
 }

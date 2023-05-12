@@ -24,6 +24,8 @@ public class AccountSearchQueryHandler : IRequestHandler<AccountSearchQueryMessa
         var filter = _mapper.Map<AccountFilter>(request);
         var paging = _mapper.Map<Paging>(request);
 
+        filter.Include(x => x.Role);
+
         var entities = await _unitOfWork.Accounts.ListAsync(filter, paging);
 
         return _mapper.Map<List<AccountDto>>(entities);

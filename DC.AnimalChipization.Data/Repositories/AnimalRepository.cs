@@ -4,6 +4,7 @@ using DC.AnimalChipization.Data.Entities;
 using DC.AnimalChipization.Data.Repositories.Contracts;
 using DC.AnimalChipization.Data.Repositories.Filters;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 
 namespace DC.AnimalChipization.Data.Repositories;
 
@@ -13,9 +14,23 @@ public class AnimalRepository : RepositoryBase<AnimalEntity>, IAnimalRepository
     {
     }
 
+    private Dictionary<string, Expression<Func<AnimalEntity, object>>> SortingColumns => new()
+    {
+        [nameof(AnimalEntity.Id)] = x => x.Id
+    };
+
+    public override Task<List<AnimalEntity>> ListAllAsync()
+    {
+        return GetQuery()
+            .Include(x => x.VisitedLocations.OrderBy(vl => vl.VisitDateTime))
+            .ThenInclude(x => x.Location)
+            .Include(x => x.AnimalTypes)
+            .Include(x => x.ChippingLocation).ToListAsync();
+    }
+
     public Task<List<AnimalEntity>> ListAsync(AnimalFilter filter, Paging paging)
     {
-        return GetQuery(filter).ToPagedList(paging);
+        return GetQuery(filter).ToPagedList(paging, SortingColumns);
     }
 
     public Task<bool> ExistsAsync(AnimalFilter filter)

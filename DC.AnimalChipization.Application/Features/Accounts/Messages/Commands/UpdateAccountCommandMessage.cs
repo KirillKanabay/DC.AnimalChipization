@@ -5,8 +5,8 @@ using MediatR;
 namespace DC.AnimalChipization.Application.Features.Accounts.Messages.Commands;
 
 [Authorize]
-public sealed record UpdateAccountCommandMessage(string FirstName, string LastName, string Email, string Password)
-    : IRequest<AccountDto>
+public class UpdateAccountCommandMessage : ImportAccountCommandMessageBase
 {
     public int AccountId { get; set; }
+    public string Role { get; set; }
 }

@@ -12,5 +12,7 @@ public class AccountConfiguration : IEntityTypeConfiguration<AccountEntity>
         builder.Property(x => x.Email).UseCollation(Collations.CaseInsensitive);
         builder.Property(x => x.FirstName).UseCollation(Collations.CaseInsensitive);
         builder.Property(x => x.LastName).UseCollation(Collations.CaseInsensitive);
+
+        builder.HasOne(x => x.Role).WithMany(x => x.Accounts).HasForeignKey(x => x.RoleId);
     }
 }

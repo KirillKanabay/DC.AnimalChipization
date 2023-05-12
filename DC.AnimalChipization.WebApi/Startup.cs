@@ -1,12 +1,15 @@
+using System;
 using System.Collections.Generic;
 using DC.AnimalChipization.Application;
 using DC.AnimalChipization.Data;
 using DC.AnimalChipization.WebApi.Handlers;
+using DC.AnimalChipization.WebApi.Immutable;
 using DC.AnimalChipization.WebApi.Mappings;
 using DC.AnimalChipization.WebApi.Middlewares;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -26,8 +29,14 @@ namespace DC.AnimalChipization.WebApi
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<ApplicationDbContext>(opt =>
+            {
+                var connectionString = Environment.GetEnvironmentVariable(EnvironmentKeys.DbConnectionString);
+                opt.UseNpgsql(connectionString);
+            });
+
             services.RegisterApplicationLogic();
-            services.RegisterData(Configuration);
+            services.RegisterData();
 
             services.AddTransient<ExceptionHandlingMiddleware>();
             services.AddAutoMapper(typeof(AccountProfile).Assembly);
