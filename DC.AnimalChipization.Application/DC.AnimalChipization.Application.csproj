@@ -18,10 +18,17 @@
     <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.1.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
     <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="NGeoHash" Version="1.2.0" />
   </ItemGroup>
 	
   <ItemGroup>
     <Folder Include="Common\Immutable\" />
+    <Folder Include="Features\Areas\Handlers\Commands\" />
+    <Folder Include="Features\Areas\Handlers\Queries\" />
+    <Folder Include="Features\Areas\Messages\Commands\" />
+    <Folder Include="Features\Locations\Enums\" />
+    <Folder Include="Features\Locations\Services\Contracts\" />
+    <Folder Include="Features\Locations\Services\Implementations\" />
   </ItemGroup>
 
 </Project>

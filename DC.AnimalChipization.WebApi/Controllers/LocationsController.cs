@@ -1,6 +1,8 @@
 ﻿using System;
+using System.Text;
 using System.Threading.Tasks;
 using AutoMapper;
+using DC.AnimalChipization.Application.Features.Locations.Enums;
 using DC.AnimalChipization.Application.Features.Locations.Messages.Commands;
 using DC.AnimalChipization.Application.Features.Locations.Messages.Queries;
 using DC.AnimalChipization.WebApi.ViewModels.Locations;
@@ -19,6 +21,10 @@ public class LocationsController : ControllerBase
     public const string ControllerName = "Locations";
 
     public const string ActionGetByIdName = "GetById";
+    public const string ActionGetIdByPointName = "Search";
+    public const string ActionGeoHashName = "Geohash";
+    public const string ActionGeoHashV2Name = "GeohashV2";
+    public const string ActionGeoHashV3Name = "GeohashV3";
     public const string ActionCreateName = "Create";
     public const string ActionUpdateName = "Update";
     public const string ActionDeleteName = "Delete";
@@ -45,6 +51,47 @@ public class LocationsController : ControllerBase
         return Ok(viewModel);
     }
 
+    [HttpGet]
+    [ActionName(ActionGetIdByPointName)]
+    public async Task<ActionResult<long>> GetIdByPointAsync(double latitude, double longitude)
+    {
+        var result = await _mediator.Send(new GetIdByPointQueryMessage
+        {
+            Latitude = latitude,
+            Longitude = longitude
+        });
+
+        return Ok(result);
+    }
+
+    [HttpGet("geohash")]
+    [ActionName(ActionGeoHashName)]
+    public async Task<ActionResult<string>> GetGeoHashAsync(double latitude, double longitude)
+    {
+        var result = await _mediator.Send(new CalculateGeoHashCommandMessage
+        {
+            Version = GeoHashVersion.V1,
+            Latitude = latitude,
+            Longitude = longitude
+        });
+
+        return Ok(result);
+    }
+
+    [HttpGet("geohashv2")]
+    [ActionName(ActionGeoHashV2Name)]
+    public async Task<ActionResult<string>> GetGeoHashV2Async(double latitude, double longitude)
+    {
+        var result = await _mediator.Send(new CalculateGeoHashCommandMessage
+        {
+            Version = GeoHashVersion.V2,
+            Latitude = latitude,
+            Longitude = longitude
+        });
+
+        return Ok(result);
+    }
+    
     [HttpPost]
     [ActionName(ActionCreateName)]
     public async Task<ActionResult<LocationViewModel>> CreateAsync([FromBody] CreateLocationRequest request)

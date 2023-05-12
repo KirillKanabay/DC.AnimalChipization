@@ -18,12 +18,7 @@ public class AnimalLocationRepository : RepositoryBase<AnimalLocationEntity>, IA
     {
         [nameof(AnimalLocationEntity.Id)] = x => x.Id
     };
-
-    public Task<AnimalLocationEntity> FirstOrDefaultAsync(AnimalLocationFilter filter)
-    {
-        return GetQuery(filter).FirstOrDefaultAsync();
-    }
-
+    
     public Task<AnimalLocationEntity> GetByIdAsync(long id)
     {
         return GetQuery().FirstOrDefaultAsync(x => x.Id == id);
@@ -33,7 +28,7 @@ public class AnimalLocationRepository : RepositoryBase<AnimalLocationEntity>, IA
     {
         return GetQuery(filter).ToPagedList(paging, SortingColumns);
     }
-
+    
     public override async Task DeleteAsync(AnimalLocationEntity entity)
     {
         var entityForDelete = await GetByIdAsync(entity.Id);

@@ -2,6 +2,8 @@
 using DC.AnimalChipization.Application.Features.Accounts.Handlers.Commands;
 using DC.AnimalChipization.Application.Features.Accounts.Mappings;
 using DC.AnimalChipization.Application.Features.Accounts.Validators;
+using DC.AnimalChipization.Application.Features.Locations.Services.Contracts;
+using DC.AnimalChipization.Application.Features.Locations.Services.Implementations;
 using DC.AnimalChipization.Application.Identity;
 using DC.AnimalChipization.Application.Identity.Contracts;
 using FluentValidation;
@@ -23,6 +25,7 @@ namespace DC.AnimalChipization.Application
             services.AddAutoMapper(typeof(AccountProfile).Assembly);
             
             services.AddScoped<IIdentityManager, IdentityManager>();
+            services.AddSingleton<IGeoHashService, GeoHashService>();
         }
     }
 }

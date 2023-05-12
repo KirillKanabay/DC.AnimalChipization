@@ -19,6 +19,15 @@ public class AnimalRepository : RepositoryBase<AnimalEntity>, IAnimalRepository
         [nameof(AnimalEntity.Id)] = x => x.Id
     };
 
+    public override Task<List<AnimalEntity>> ListAllAsync()
+    {
+        return GetQuery()
+            .Include(x => x.VisitedLocations.OrderBy(vl => vl.VisitDateTime))
+            .ThenInclude(x => x.Location)
+            .Include(x => x.AnimalTypes)
+            .Include(x => x.ChippingLocation).ToListAsync();
+    }
+
     public Task<List<AnimalEntity>> ListAsync(AnimalFilter filter, Paging paging)
     {
         return GetQuery(filter).ToPagedList(paging, SortingColumns);

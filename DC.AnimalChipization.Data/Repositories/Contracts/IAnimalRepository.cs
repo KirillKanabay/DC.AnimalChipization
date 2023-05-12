@@ -6,6 +6,7 @@ namespace DC.AnimalChipization.Data.Repositories.Contracts;
 
 public interface IAnimalRepository
 {
+    Task<List<AnimalEntity>> ListAllAsync();
     Task<List<AnimalEntity>> ListAsync(AnimalFilter filter, Paging paging);
     Task<bool> ExistsAsync(AnimalFilter filter);
     Task<AnimalEntity> GetByIdAsync(long id);
